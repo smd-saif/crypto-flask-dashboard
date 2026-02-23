@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Team Saif Crypto Dashboard</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#eef2f7;
+    margin:0;
+}
+
+header{
+    background:#111827;
+    color:white;
+    padding:25px;
+    text-align:center;
+}
+
+.container{
+    width:92%;
+    margin:auto;
+}
+
+.kpi{
+    display:flex;
+    gap:20px;
+    margin:25px 0;
+}
+
+.card{
+    flex:1;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 6px 15px rgba(0,0,0,0.15);
+}
+
+.chart{
+    background:white;
+    padding:15px;
+    margin-bottom:25px;
+    border-radius:12px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.15);
+}
+
+.slider-box{
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    margin-top:15px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.15);
+    color:black;
+    width:80%;
+    margin-left:auto;
+    margin-right:auto;
+}
+.range-label{
+    font-weight:bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h1>Crypto Market Dashboard</h1>
+<p>Team Saif 🚀</p>
+
+<div class="slider-box">
+<form method="GET">
+
+<div class="range-label">
+Start Date: <span id="startDate"></span> |
+End Date: <span id="endDate"></span>
+</div>
+
+<br>
+
+Start
+<input type="range"
+       name="start_idx"
+       id="startSlider"
+       min="0"
+       max="{{ total_rows-1 }}"
+       value="{{ start_idx }}">
+
+End
+<input type="range"
+       name="end_idx"
+       id="endSlider"
+       min="0"
+       max="{{ total_rows-1 }}"
+       value="{{ end_idx }}">
+
+<br><br>
+<button type="submit">Apply Range</button>
+
+</form>
+</div>
+
+</header>
+
+<div class="container">
+
+<div class="kpi">
+<div class="card">
+<h3>Latest Price</h3>
+<h2>{{ latest_price }}</h2>
+</div>
+
+<div class="card">
+<h3>Total Volume</h3>
+<h2>{{ total_volume }}</h2>
+</div>
+
+<div class="card">
+<h3>Avg Market Cap (Bn)</h3>
+<h2>{{ avg_market_cap }}</h2>
+</div>
+</div>
+
+<div class="chart">{{ chart1|safe }}</div>
+<div class="chart">{{ chart2|safe }}</div>
+<div class="chart">{{ chart3|safe }}</div>
+<div class="chart">{{ chart4|safe }}</div>
+
+</div>
+
+<script>
+const dates = {{ dates|tojson }};
+const startSlider = document.getElementById("startSlider");
+const endSlider = document.getElementById("endSlider");
+const startDate = document.getElementById("startDate");
+const endDate = document.getElementById("endDate");
+
+function updateDates(){
+    startDate.innerText = dates[startSlider.value];
+    endDate.innerText = dates[endSlider.value];
+}
+
+startSlider.oninput = updateDates;
+endSlider.oninput = updateDates;
+updateDates();
+</script>
+
+</body>
+</html>
